@@ -5,7 +5,7 @@ __pycache__/
 
 # MPE
 
-multiagent-particle-envs/
+# multiagent-particle-envs/
 
 # C extensions
 *.so

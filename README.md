@@ -1,23 +1,29 @@
 **Status:** Archive (code is provided as-is, no updates expected)
 
-# Potential-based Reward Shaping for Multi-Agent Reinforcement Learning
+# Shaping Advice in Deep Multi-Agent Reinforcement Learning
 
-This is the code for implementing the SAM algorithm presented in the paper:
-`Shaping Advice in Deep Multi-Agent Reinforcement Learning`
+## Summary
+
+Multi-agent reinforcement learning involves multiple agents interacting with each other and a shared environment to complete tasks. When rewards provided by the environment are sparse, agents may not receive immediate feedback on the quality of actions that they take, thereby affecting learning of policies. In this paper, we propose a method called Shaping Advice in deep Multi-agent reinforcement learning (SAM) to augment the reward signal from the environment with an additional reward termed shaping advice. The shaping advice is given by a difference of potential functions at consecutive time-steps. Each potential function is a function of observations and actions of the agents. The shaping advice needs to be specified only once at the start of training, and can be easily provided by non-experts. We show through theoretical analyses and experimental validation that shaping advice provided by SAM does not distract agents from completing tasks specified by the environment reward. Theoretically, we prove that convergence of policy gradients and value functions when using SAM implies convergence of these quantities in the absence of SAM. Experimentally, we evaluate SAM on three tasks in the multi-agent Particle World environment that have sparse rewards. We observe that using SAM results in agents learning policies to complete tasks faster, and obtain higher rewards than: i) using sparse rewards alone; ii) a state-of-the-art reward redistribution method, Iterative Relative Credit Refinement ([IRCR](https://arxiv.org/abs/2010.12718)).
+
+## Code description
+
+This code presents a Python implementation of the SAM algorithm from the paper: 
+
+[Shaping Advice in Deep Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2103.15941)
 <!-- [Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments](https://arxiv.org/pdf/1706.02275.pdf). -->
-It is configured to be run in conjunction with environments from the
+It is configured to be run in conjunction with multi-agent reinforcement learning environments from the
 [Multi-Agent Particle Environments (MPE)](https://github.com/openai/multiagent-particle-envs).
-Different from the original MPE environment, we modified the reward structure such that the rewards are sparse.
-Note: this codebase has been restructured since the original paper, and the results may
-vary from those reported in the paper.
+Different from the original MPE environment where rewards were dense, our work uses a sparse reward structure.
+Note: This code base has been restructured compared to the original paper, and some results may be different.
 
 ## Installation
 
 - To install, `cd` into the root directory and type `pip install -e .`
 
-- Known dependencies: Python (3.5.4), OpenAI gym (0.10.5), tensorflow (1.9.0), numpy (1.15.2)
+- Known dependencies: Python (3.5.4), OpenAI gym (0.10.5), TensorFlow (1.9.0), numpy (1.15.2)
 
-## Case study: Run SAM-NonUniform in simple-spread Environments
+## Case study: Run SAM-NonUniform in simple-spread Environment
 
 - To run SAM-NonUniform in simple spread, `cd` into the `experiments` directory and run `train.py`:
 
@@ -31,9 +37,9 @@ vary from those reported in the paper.
 
 ``python train_tag.py --scenario=simple_tag --num-adversaries=3 --num-episodes=60000 --save-dir=./logs/simple_tag/``
 
-``python train_adv.py --scenario=simple_adversary --num-adversaries=1 --num-episodes=60000 --save-dir=./logs/simple_adversary``
+``python train_adv.py --scenario=simple_adversary --num-adversaries=1 --num-episodes=60000 --save-dir=./logs/simple_adversary/``
 
-- For comparison, you can run IRCR or MADDPG alone on MPE with saprse reward:
+- For comparison, you can run [IRCR](https://arxiv.org/abs/2010.12718) or MADDPG alone on MPE with sparse reward:
 
 ``python train_IRCR_spread.py --scenario=simple_spread --num-episodes=60000 --save-dir=./logs/simple_spread_IRCR/``
 
@@ -43,7 +49,7 @@ vary from those reported in the paper.
 
 ### Environment options
 
-- `--scenario`: defines which environment in the MPE is to be used (default: `"simple"`)
+- `--scenario`: defines which environment in the MPE is to be used (options: `simple_spread`, `simple_tag`, `simple_adversary`)
 
 - `--max-episode-len` maximum length of each episode for the environment (default: `25`)
 
@@ -92,8 +98,34 @@ has been provided), but does not continue training (default: `False`)
 - `./maddpg/trainer/replay_buffer.py`: replay buffer code for MADDPG
 
 
+Note: You may freely redistribute and use this sample code, with or without modification, provided you include the original Copyright notice and use restrictions.
 
-## Acknowledgement
+## Disclaimer
 
-The code of MADDPG is based on the publicly available implementation of [MADDPG](https://github.com/openai/maddpg)
+THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL DINUKA SAHABANDU OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## Acknowledgements
+
+This work was supported by the U.S. Office of Naval Research via Grant N00014-17-S-B001. 
+
+The code of MADDPG is based on the publicly available implementation: https://github.com/openai/maddpg.
+
+## Additional Information
+
+Project Webpage: Feedback-driven Learn to Reason in Adversarial Environments for Autonomic Cyber Systems (http://labs.ece.uw.edu/nsl/faculty/ProjectWebPages/L2RAVE/)
+
+
+## Paper citation
+
+If you used this code for your experiments or found it helpful, please cite the following paper:
+
+Bibtex:
+<pre>
+@article{xiao2021shaping,
+  title={Shaping Advice in Deep Multi-Agent Reinforcement Learning
+},
+  author={Xiao, Baicen and Ramasubramanian, Bhaskar and Poovendran, Radha},
+  journal={arXiv preprint arXiv:2103.15941},
+  year={2021}
+}
+</pre>
